@@ -16,7 +16,7 @@ This preprocessing script generates 3 binary files. Only the training and valida
 You can run the training as follows : 
 
 ```
-python train.py --data_dir data_path \
+python train_sm.py --data_dir data_path \
 --log_dir log_dir \
 --train_loc train_binary_file\
 --valid_loc validation_binary_file &
