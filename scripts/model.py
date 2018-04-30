@@ -19,7 +19,7 @@ def inference(inputs,
     }
 
     with slim.arg_scope([slim.conv2d],
-	    
+
             weights_initializer=layers.variance_scaling_initializer(factor=1.0,
                                                                     mode='FAN_AVG',
                                                                     uniform=False),
@@ -45,16 +45,14 @@ def model(inputs,
 
                 net = slim.conv2d(inputs, 32, [5, 5], scope='conv1')
                 net = slim.conv2d(net, 32, [5, 5], scope='conv2')
-		net = slim.conv2d(net, 64, [5, 5], scope='conv3')
-		net = slim.conv2d(net, 64, [5, 5], scope='conv4')
-		net = slim.conv2d(net, 64, [5, 5], scope='conv5')
-		net = slim.conv2d(net, 64, [5, 5], scope='conv6')
-		net = slim.conv2d(net, 64, [5, 5], scope='conv7')
-		net = slim.conv2d(net, 64, [5, 5], scope='conv8')
-
+                net = slim.conv2d(net, 64, [5, 5], scope='conv3')
+                net = slim.conv2d(net, 64, [5, 5], scope='conv4')
+                net = slim.conv2d(net, 64, [5, 5], scope='conv5')
+                net = slim.conv2d(net, 64, [5, 5], scope='conv6')
+                net = slim.conv2d(net, 64, [5, 5], scope='conv7')
+                net = slim.conv2d(net, 64, [5, 5], scope='conv8')
                 net = slim.conv2d(net, num_outputs, [5, 5], scope='conv9', activation_fn=None, normalizer_fn=None)
-		net = slim.batch_norm(net, is_training=is_training)
-                
+                net = slim.batch_norm(net, is_training=is_training)
 
                 return net
 
