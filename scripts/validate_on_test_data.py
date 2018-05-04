@@ -22,6 +22,8 @@ def main(args):
     parser.add_argument('--patch_size', type=int, default=37, help='The training patch size.')
     parser.add_argument('--disparity_range', type=int, default=201, help='The training disparity range.')
     parser.add_argument('--image_size', type=int, nargs='+', default=(375,1242), help='The input image size')
+    parser.add_argument('--cost_agg', type=int, default=2,  help='Perform cost aggregation')
+    parser.add_argument('--cost_agg_window', type=int, default=[5,5], help='The cost aggregation window')
 
     args = parser.parse_args()
 
@@ -56,6 +58,10 @@ def main(args):
 
         # The dot product with respect to the channels
         #prod = tf.reduce_sum(tf.multiply(l_map, r_map), axis=3, name='map_inner_product')
+
+        if args.cost_agg >0:
+            l_vol = tf.placeholder(tf.float32, shape=[1,None,None,args.disparity_range], name="left_unary_vol")
+            cost_vol =  tf.layers.average_pooling2d(l_vol, args.cost_agg_window, (1,1),padding='SAME')
 
         # Restore the variables from checkpoint
         tf.train.Saver().restore(sess, tf.train.latest_checkpoint(args.model))
@@ -109,6 +115,15 @@ def main(args):
             print('Image %s processed.' % (i + 1))
             pred = np.argmax(unary_vol, axis=2) * scale_factor
             misc.imsave('%s/disp_map_%06d_10.png' % (args.out_dir,idx), pred)
+
+            if args.cost_agg>0:
+                l_cost_vol = np.expand_dims(np.array(unary_vol),0)
+                for i in range(args.cost_agg):
+                    l_cost_vol = sess.run(cost_vol,feed_dict={l_vol:l_cost_vol})
+
+                l_cost_vol = np.squeeze(l_cost_vol,0)
+                pred_cost = np.argmax(l_cost_vol,axis=2)*scale_factor
+                misc.imsave('%s/disp_map_agg_%06d_10.png' % (args.out_dir,idx), pred_cost)
 
 def get_paths(data_dir):
 
