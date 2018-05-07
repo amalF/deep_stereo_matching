@@ -3,7 +3,7 @@
 This is a TensorFlow implementation of the stereo matching algorithm described in the paper ["Efficient Deep Learning for Stereo Matching"](https://www.cs.toronto.edu/~urtasun/publications/luo_etal_cvpr16.pdf). 
 
 ## Compatibility
-The code is tested using Tensorflow r1.4 under Ubuntu 14.04 with Python 2.7 and Python 3.5.
+The code is tested using Tensorflow r1.4 under Ubuntu 14.04 with Python 2.7.
 
 ## Training data
 The [KITTI 2015](http://www.cvlibs.net/datasets/kitti/eval_scene_flow.php?benchmark=stereo) dataset has been used for training. This dataset consists of total of 200 scenes for training and of 200 scenes for testing. For more details, please check the KITTI website.
