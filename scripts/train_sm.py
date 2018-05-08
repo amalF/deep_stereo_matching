@@ -81,7 +81,7 @@ def main(args):
          tf.summary.scalar("loss",total_loss)
 
          boundaries = [x
-                 for x in np.array([2400, 3200, 4000], dtype=np.int32)]
+                 for x in np.array([24000, 32000, 40000], dtype=np.int32)]
 
          staged_lr = [learning_rate_placeholder * x for x in [1, 0.2, 0.04, 0.008]]
 
